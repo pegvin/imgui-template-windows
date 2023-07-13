@@ -31,7 +31,9 @@ static HGLRC            g_hRC;
 static WGL_WindowData   g_MainWindow;
 static int              g_Width;
 static int              g_Height;
-statoc HWND             g_HWND:
+static HWND             g_HWND;
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // Helper functions
 bool CreateDeviceWGL(HWND hWnd, WGL_WindowData* data) {
@@ -118,6 +120,10 @@ bool Win_Process() {
 		::DispatchMessage(&msg);
 		if (msg.message == WM_QUIT) return true;
 	}
+}
+
+HWND& Win_GetHWND() {
+	return g_HWND;
 }
 
 void Win_Update() {

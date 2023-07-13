@@ -1,12 +1,18 @@
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_win32.h"
+
+#ifndef WIN32_LEAN_AND_MEAN
+	#define WIN32_LEAN_AND_MEAN
+#endif
+#include <windows.h>
 #include <GL/GL.h>
 
-bool Win_Init(const char* title, int x, int y, int width, int height);
-bool Win_Process();
-void Win_Update();
-void Win_Release();
+bool  Win_Init(const char* title, int x, int y, int width, int height);
+HWND& Win_GetHWND();
+bool  Win_Process();
+void  Win_Update();
+void  Win_Release();
 
 int main(int, char**) {
 	if (!Win_Init()) return 1;
@@ -21,7 +27,7 @@ int main(int, char**) {
 	ImGui::StyleColorsDark();
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplWin32_InitForOpenGL(hwnd);
+	ImGui_ImplWin32_InitForOpenGL(Win_GetHWND());
 	ImGui_ImplOpenGL3_Init();
 
 	// Our state
