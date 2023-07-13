@@ -1,6 +1,6 @@
 CXX        := g++
 CXX_FLAGS  := -std=c++17 -Wall -MMD -MP -Ithird_party/imgui/include/
-LFLAGS     := -lopengl32
+LFLAGS     := -luser32 -lopengl32
 BUILD      := build/
 BUILD_TYPE := Debug
 BIN        := MyApp.exe
