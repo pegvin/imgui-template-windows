@@ -13,15 +13,15 @@ OBJECTS := $(patsubst %,$(BUILD)/%,$(OBJECTS))
 DEPENDS := $(OBJECTS:.o=.d)
 
 ifeq ($(BUILD_TYPE),Debug)
-    CFLAGS+=-O0 -g
-    CXXFLAGS+=-O0 -g
+	CFLAGS+=-O0 -g
+	CXXFLAGS+=-O0 -g
 else
-    ifeq ($(BUILD_TYPE),Release)
-        CFLAGS+=-O3
-        CXXFLAGS+=-O3
-    else
+	ifeq ($(BUILD_TYPE),Release)
+		CFLAGS+=-O3
+		CXXFLAGS+=-O3
+	else
 $(error Unknown Build Type "$(BUILD_TYPE)")
-    endif
+	endif
 endif
 
 -include $(DEPENDS)
@@ -29,21 +29,20 @@ endif
 all: $(BIN)
 
 $(BUILD)/%.o: %.cpp
-    @echo "CXX -" $<
-    @mkdir -p "$(dir "$@")"
-    @$(CXX) $(CXX_FLAGS) -c $< -o $@
+	@echo "CXX -" $<
+	@mkdir -p "$(dir "$@")"
+	@$(CXX) $(CXX_FLAGS) -c $< -o $@
 
 $(BIN): $(OBJECTS)
-    @echo Linking $@
-    @$(CXX) $(LFLAGS) $(OBJECTS) -o $@
+	@echo Linking $@
+	@$(CXX) $(LFLAGS) $(OBJECTS) -o $@
 
 .PHONY: run
 .PHONY: clean
 
 run: $(all)
-    ./$(BIN)
+	./$(BIN)
 
 clean:
-    $(RM) $(OBJECTS) $(DEPENDS) $(BIN)
-
+	$(RM) $(OBJECTS) $(DEPENDS) $(BIN)
 
