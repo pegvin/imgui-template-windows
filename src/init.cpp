@@ -110,7 +110,7 @@ bool Win_Init(const char* title, int x, int y, int width, int height) {
 	::ShowWindow(g_HWND, SW_SHOWDEFAULT);
 	::UpdateWindow(g_HWND);
 
-	memcpy(g_wc, wc, sizeof(wc));
+	memcpy(&g_wc, &wc, sizeof(g_wc));
 
 	return true;
 }
