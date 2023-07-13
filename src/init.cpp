@@ -92,7 +92,8 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 bool Win_Init(const char* title, int x, int y, int width, int height) {
 	// Create application window
 	ImGui_ImplWin32_EnableDpiAwareness();
-	g_wc = { sizeof(wc), CS_OWNDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL };
+	WNDCLASSEXW wc = { sizeof(wc), CS_OWNDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL };
+
 	::RegisterClassExW(&wc);
 	g_HWND = ::CreateWindowW(wc.lpszClassName, (LPCWSTR)title, WS_OVERLAPPEDWINDOW, x, y, width, height, NULL, NULL, wc.hInstance, NULL);
 
@@ -100,7 +101,7 @@ bool Win_Init(const char* title, int x, int y, int width, int height) {
 	if (!CreateDeviceWGL(g_HWND, &g_MainWindow)) {
 		CleanupDeviceWGL(g_HWND, &g_MainWindow);
 		::DestroyWindow(g_HWND);
-		::UnregisterClassW(g_wc.lpszClassName, wc.hInstance);
+		::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 		return false;
 	}
 	wglMakeCurrent(g_MainWindow.hDC, g_hRC);
@@ -108,6 +109,8 @@ bool Win_Init(const char* title, int x, int y, int width, int height) {
 	// Show the window
 	::ShowWindow(g_HWND, SW_SHOWDEFAULT);
 	::UpdateWindow(g_HWND);
+
+	memcpy(g_wc, wc, sizeof(wc));
 
 	return true;
 }
@@ -121,6 +124,7 @@ bool Win_Process() {
 		::DispatchMessage(&msg);
 		if (msg.message == WM_QUIT) return true;
 	}
+	return false;
 }
 
 HWND& Win_GetHWND() {
