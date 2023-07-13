@@ -1,6 +1,6 @@
 CXX        := g++
 CXX_FLAGS  := -std=c++17 -Wall -MMD -MP -Ithird_party/imgui/include/
-LFLAGS     := -luser32 -lopengl32
+LFLAGS     := -lopengl32 -lglu32
 BUILD      := build/
 BUILD_TYPE := Debug
 BIN        := MyApp.exe
@@ -13,12 +13,10 @@ OBJECTS := $(patsubst %,$(BUILD)/%,$(OBJECTS))
 DEPENDS := $(OBJECTS:.o=.d)
 
 ifeq ($(BUILD_TYPE),Debug)
-	CFLAGS+=-O0 -g
-	CXXFLAGS+=-O0 -g
+	CXX_FLAGS+=-O0 -g
 else
 	ifeq ($(BUILD_TYPE),Release)
-		CFLAGS+=-O3
-		CXXFLAGS+=-O3
+		CXX_FLAGS+=-O3
 	else
 $(error Unknown Build Type "$(BUILD_TYPE)")
 	endif
