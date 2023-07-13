@@ -6,7 +6,7 @@ BUILD_TYPE := Debug
 BIN        := MyApp.exe
 
 SOURCES := src/main.cpp src/init.cpp
-SOURCES += $(addprefix,third_party/imgui/,imgui_demo.cpp imgui_impl_opengl3.cpp imgui_tables.cpp imgui.cpp imgui_draw.cpp imgui_impl_win32.cpp imgui_widgets.cpp)
+SOURCES += $(addprefix third_party/imgui/,imgui_demo.cpp imgui_impl_opengl3.cpp imgui_tables.cpp imgui.cpp imgui_draw.cpp imgui_impl_win32.cpp imgui_widgets.cpp)
 
 OBJECTS := $(SOURCES:.cpp=.o)
 OBJECTS := $(patsubst %,$(BUILD)/%,$(OBJECTS))
