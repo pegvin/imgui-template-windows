@@ -31,6 +31,7 @@ static HGLRC            g_hRC;
 static WGL_WindowData   g_MainWindow;
 static int              g_Width;
 static int              g_Height;
+statoc HWND             g_HWND:
 
 // Helper functions
 bool CreateDeviceWGL(HWND hWnd, WGL_WindowData* data) {
@@ -90,20 +91,20 @@ bool Win_Init(const char* title, int x, int y, int width, int height) {
 	// ImGui_ImplWin32_EnableDpiAwareness();
 	WNDCLASSEXW wc = { sizeof(wc), CS_OWNDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL };
 	::RegisterClassExW(&wc);
-	HWND hwnd = ::CreateWindowW(wc.lpszClassName, title, WS_OVERLAPPEDWINDOW, x, y, width, height, NULL, NULL, wc.hInstance, NULL);
+	g_HWND = ::CreateWindowW(wc.lpszClassName, (LPCWSTR)title, WS_OVERLAPPEDWINDOW, x, y, width, height, NULL, NULL, wc.hInstance, NULL);
 
 	// Initialize OpenGL
-	if (!CreateDeviceWGL(hwnd, &g_MainWindow)) {
-		CleanupDeviceWGL(hwnd, &g_MainWindow);
-		::DestroyWindow(hwnd);
+	if (!CreateDeviceWGL(g_HWND, &g_MainWindow)) {
+		CleanupDeviceWGL(g_HWND, &g_MainWindow);
+		::DestroyWindow(g_HWND);
 		::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 		return false;
 	}
 	wglMakeCurrent(g_MainWindow.hDC, g_hRC);
 
 	// Show the window
-	::ShowWindow(hwnd, SW_SHOWDEFAULT);
-	::UpdateWindow(hwnd);
+	::ShowWindow(g_HWND, SW_SHOWDEFAULT);
+	::UpdateWindow(g_HWND);
 
 	return true;
 }
@@ -125,9 +126,9 @@ void Win_Update() {
 }
 
 void Win_Release() {
-	CleanupDeviceWGL(hwnd, &g_MainWindow);
+	CleanupDeviceWGL(g_HWND, &g_MainWindow);
 	wglDeleteContext(g_hRC);
-	::DestroyWindow(hwnd);
+	::DestroyWindow(g_HWND);
 	::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 }
 
