@@ -15,7 +15,7 @@ void  Win_Update();
 void  Win_Release();
 
 int main(int, char**) {
-	if (!Win_Init()) return 1;
+	if (!Win_Init("My App", 100, 200, 600, 400)) return 1;
 
 	// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
