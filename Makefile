@@ -1,5 +1,5 @@
 CXX        := g++
-CXX_FLAGS  := -std=c++17 -Wall -MMD -MP -Ithird_party/imgui/include/imgui/
+CXX_FLAGS  := -std=c++17 -Wall -MMD -MP -Ithird_party/imgui/include/
 LFLAGS     := -lopengl32
 BUILD      := build/
 BUILD_TYPE := Debug
@@ -29,9 +29,9 @@ endif
 all: $(BIN)
 
 $(BUILD)/%.o: %.cpp
-	@echo "CXX -" $<
-	@mkdir -p $(dir "$@")
-	@$(CXX) $(CXX_FLAGS) -c $< -o $@
+	echo "CXX -" $<
+	mkdir -p "$(dir $@)"
+	$(CXX) $(CXX_FLAGS) -c $< -o $@
 
 $(BIN): $(OBJECTS)
 	@echo Linking $@
