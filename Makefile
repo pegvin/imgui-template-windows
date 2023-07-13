@@ -29,11 +29,11 @@ all: $(BIN)
 $(BUILD)/%.o: %.cpp
 	@echo "CXX -" $<
 	@mkdir -p "$(dir $@)"
-	$(CXX) $(CXX_FLAGS) -c $< -o $@
+	@$(CXX) $(CXX_FLAGS) -c $< -o $@
 
 $(BIN): $(OBJECTS)
 	@echo Linking $@
-	$(CXX) $(LFLAGS) $(OBJECTS) -o $@
+	@$(CXX) $(OBJECTS) $(LFLAGS) -o $@
 
 .PHONY: run
 .PHONY: clean
